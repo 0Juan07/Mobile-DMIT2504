@@ -11,5 +11,6 @@ void main(List<String> arguments) {
   Person person = Person(name, age);
 
   stdout.writeln(
-      'Hello ${person.name}, it looks like you are ${person.age} years old.');
+    'Hello ${person.name}, it looks like you are ${person.age} years old.',
+  );
 }
