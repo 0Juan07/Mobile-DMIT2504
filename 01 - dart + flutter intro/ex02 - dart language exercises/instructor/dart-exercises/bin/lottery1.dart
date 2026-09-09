@@ -47,4 +47,3 @@ void main() {
 
   print(lottoNumbers.join(' '));
 }
-
