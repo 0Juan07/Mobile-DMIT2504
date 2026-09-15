@@ -8,9 +8,13 @@
 import 'dart:io';
 import 'package:dictionary_api/http_requests.dart';
 
-void main() {
+void main() async {
   print("What's the word you want to look up?");
   String word = stdin.readLineSync()!;
 
-  getWordDefinition(word);
+  final definition = await getWordDefinition(word);
+
+  print('\nWord            Definition');
+  print('--------------  ---------------------------------------------------');
+  print('${word}      ${definition}');
 }

@@ -33,7 +33,6 @@ Future<dynamic> getJSON(String urlString) async {
   final response = await http.get(url); // all the http package get/post/etc. functions are async
                                         // so I need to await the result
   // 3. return JSON
-  print(response.body);
   return jsonDecode(response.body);
 }
 
@@ -47,7 +46,5 @@ Future<String> getWordDefinition(String word) async {
   var jsonData = await getJSON(urlString);
 
   // 3. navigate through the shape of the data and return the definition
-  print(jsonData);
-
-  return "compiler pls no mad";
+  return jsonData['entries'][0]['senses'][0]['definition'];
 }
