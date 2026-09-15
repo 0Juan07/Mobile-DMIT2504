@@ -11,5 +11,4 @@ void main() {
   print("What's the word you want to look up?");
   String word = stdin.readLineSync()!;
 
-
 }
