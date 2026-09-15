@@ -1,8 +1,9 @@
-import 'dart:convert';           // needed to encode/decode JSON
-import 'package:http/http.dart'; // needed to make HTTP requests (third-party pkg)
+import 'dart:convert'; // needed to encode/decode JSON
+import 'package:http/http.dart' as http; // needed to make HTTP requests (third-party pkg)
+                                         // to install a new package, "dart pub add {package}"
 
 // API constants first
-String API_BASE_URL = 'https://freedictionaryapi.com/api/v1/entries/en/';
+String API_BASE_URL = 'http://freedictionaryapi.com/api/v1';
 
 // I'm choosing to make separate constants for endpoints, pretending that this application
 // would grow in complexity.
@@ -26,9 +27,8 @@ Future<dynamic> getJSON(String urlString) async {
   // We want all our HTTP interaction to be async, so we return a Future<someType>,
   // and valid JSON can start with a variety of data types, so we use the "dynamic" type
   // to tell the compiler it could be anything.
-
   // 1. parse URL string as Uri
-  final Uri url = Uri.parse(urlString)
+  final url = Uri.parse(urlString);
   // 2. make HTTP request & get response
   final response = await http.get(url); // all the http package get/post/etc. functions are async
                                         // so I need to await the result
@@ -37,6 +37,17 @@ Future<dynamic> getJSON(String urlString) async {
   return jsonDecode(response.body);
 }
 
-Future<String> getDictionaryDefinition(String word) async {
+Future<String> getWordDefinition(String word) async {
   // this function must also be async, because getJSON() is async!
+
+  // 1. compose the word into the url string (base url + endpoint + word)
+  String urlString = '${API_BASE_URL}/entries/en/${word}';
+
+  // 2. fire getJSON and collect the result
+  var jsonData = await getJSON(urlString);
+
+  // 3. navigate through the shape of the data and return the definition
+  print(jsonData);
+
+  return "compiler pls no mad";
 }
