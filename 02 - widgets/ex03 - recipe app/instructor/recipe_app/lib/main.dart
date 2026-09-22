@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade200,
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.all(16.0),
@@ -29,6 +30,17 @@ class MyApp extends StatelessWidget {
               'assets/images/cool.jpg',
               height: 480,
               width: 480,
+            ),
+            Text(
+              'Ingredients',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('- some ingredient'),
             ),
           ],
         ),
