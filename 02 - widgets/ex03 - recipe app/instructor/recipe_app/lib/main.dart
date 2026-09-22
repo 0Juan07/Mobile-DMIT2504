@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade200,
@@ -37,12 +40,10 @@ class MyApp extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
                 children: [
-                  Text('Ingredients',
-                  textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Text(
+                    'Ingredients',
+                    textAlign: TextAlign.center,
+                    style: headingStyle,
                   ),
                   Text('- some ingredient'),
                   Text('- some ingredient'),
@@ -58,11 +59,8 @@ class MyApp extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
                 children: [
                   Text('Instructions',
-                  textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    textAlign: TextAlign.center,
+                    style: headingStyle,
                   ),
                   Text('1. take your cream and behold it'),
                   Text('2. whip it good'),
