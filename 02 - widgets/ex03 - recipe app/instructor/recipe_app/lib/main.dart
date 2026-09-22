@@ -52,6 +52,24 @@ class MyApp extends StatelessWidget {
                 ],
               ),
             ),
+            Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
+                children: [
+                  Text('Instructions',
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text('1. take your cream and behold it'),
+                  Text('2. whip it good'),
+                  Text('3. dip a strawberry'),
+                ],
+              ),
+            ),
           ],
         ),
       ),
