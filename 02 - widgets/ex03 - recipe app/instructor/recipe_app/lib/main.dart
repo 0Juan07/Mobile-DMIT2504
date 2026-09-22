@@ -14,12 +14,14 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade200,
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch, // like a flexbox!
+                              // .stretch alignment means children fill the entire width
           children: [
             Padding(
               padding: EdgeInsets.all(16.0),
               child: const Text(
                 'My Recipe App',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -29,18 +31,26 @@ class MyApp extends StatelessWidget {
             Image.asset(
               'assets/images/cool.jpg',
               height: 480,
-              width: 480,
             ),
-            Text(
-              'Ingredients',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
+                children: [
+                  Text('Ingredients',
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text('- some ingredient'),
+                  Text('- some ingredient'),
+                  Text('- some ingredient'),
+                  Text('- some ingredient'),
+                  Text('- some ingredient'),
+                ],
               ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text('- some ingredient'),
             ),
           ],
         ),
