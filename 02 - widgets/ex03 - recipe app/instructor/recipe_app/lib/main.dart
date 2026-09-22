@@ -25,6 +25,11 @@ class MyApp extends StatelessWidget {
                 )
               ),
             ),
+            Image.asset(
+              'assets/images/cool.jpg',
+              height: 480,
+              width: 480,
+            ),
           ],
         ),
       ),
