@@ -11,8 +11,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade200,
@@ -90,5 +88,26 @@ class ListWithHeading extends StatelessWidget {
   final String       heading;
   final List<String> listItems;
 
+  static const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
+
   // 3. I need to write a build method that returns that group of elements
+  @override
+  Widget build(BuildContext context) {
+    // I basically just take what I had inline and paste it here
+    return Padding(
+      padding: EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
+        children: [
+          Text(
+            heading,
+            textAlign: TextAlign.center,
+            style: headingStyle,
+          ),
+          for (final item in listItems) Text(item),
+        ],
+      ),
+    );
+  }
 }
