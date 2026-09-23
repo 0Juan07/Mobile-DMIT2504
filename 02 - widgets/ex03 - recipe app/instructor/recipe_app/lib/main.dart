@@ -80,6 +80,15 @@ class MyApp extends StatelessWidget {
 // so I can make one component to reuse for both those purposes.
 class ListWithHeading extends StatelessWidget {
   // 1. I need a constructor (input params: super.key, heading, and list<str>)
+  const ListWithHeading({
+    super.key,
+    required this.heading,
+    required this.listItems,
+  });
+
   // 2. I need class attributes for heading & items
+  final String       heading;
+  final List<String> listItems;
+
   // 3. I need to write a build method that returns that group of elements
 }
