@@ -33,38 +33,23 @@ class MyApp extends StatelessWidget {
               'assets/images/cool.jpg',
               height: 480,
             ),
-            Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
-                children: [
-                  Text(
-                    'Ingredients',
-                    textAlign: TextAlign.center,
-                    style: headingStyle,
-                  ),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                ],
-              ),
+            const ListWithHeading(
+              heading: "Ingredients",
+              listItems: [
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+              ]
             ),
-            Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
-                children: [
-                  Text('Instructions',
-                    textAlign: TextAlign.center,
-                    style: headingStyle,
-                  ),
-                  Text('1. take your cream and behold it'),
-                  Text('2. whip it good'),
-                  Text('3. dip a strawberry'),
-                ],
-              ),
+            const ListWithHeading(
+              heading: "Instructions",
+              listItems: [
+                '1. take your cream and behold it',
+                '2. whip it good',
+                '3. dip a strawberry',
+              ]
             ),
           ],
         ),
