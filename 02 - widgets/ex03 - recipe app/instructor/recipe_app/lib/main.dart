@@ -75,3 +75,11 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+// I notice that the Ingredients & Instructions 'shapes' are identical,
+// so I can make one component to reuse for both those purposes.
+class ListWithHeading extends StatelessWidget {
+  // 1. I need a constructor (input params: super.key, heading, and list<str>)
+  // 2. I need class attributes for heading & items
+  // 3. I need to write a build method that returns that group of elements
+}
