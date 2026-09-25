@@ -11,8 +11,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade200,
@@ -35,38 +33,23 @@ class MyApp extends StatelessWidget {
               'assets/images/cool.jpg',
               height: 480,
             ),
-            Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
-                children: [
-                  Text(
-                    'Ingredients',
-                    textAlign: TextAlign.center,
-                    style: headingStyle,
-                  ),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                  Text('- some ingredient'),
-                ],
-              ),
+            const ListWithHeading(
+              heading: "Ingredients",
+              listItems: [
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+                "- some ingredient",
+              ]
             ),
-            Padding(
-              padding: EdgeInsets.all(32.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
-                children: [
-                  Text('Instructions',
-                    textAlign: TextAlign.center,
-                    style: headingStyle,
-                  ),
-                  Text('1. take your cream and behold it'),
-                  Text('2. whip it good'),
-                  Text('3. dip a strawberry'),
-                ],
-              ),
+            const ListWithHeading(
+              heading: "Instructions",
+              listItems: [
+                '1. take your cream and behold it',
+                '2. whip it good',
+                '3. dip a strawberry',
+              ]
             ),
           ],
         ),
@@ -75,3 +58,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+// I notice that the Ingredients & Instructions 'shapes' are identical,
+// so I can make one component to reuse for both those purposes.
+class ListWithHeading extends StatelessWidget {
+  // 1. I need a constructor (input params: super.key, heading, and list<str>)
+  const ListWithHeading({
+    super.key,
+    required this.heading,
+    required this.listItems,
+  });
+
+  // 2. I need class attributes for heading & items
+  final String       heading;
+  final List<String> listItems;
+
+  static const headingStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
+
+  // 3. I need to write a build method that returns that group of elements
+  @override
+  Widget build(BuildContext context) {
+    // I basically just take what I had inline and paste it here
+    return Padding(
+      padding: EdgeInsets.all(32.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // default x-axis align will be centering
+        children: [
+          Text(
+            heading,
+            textAlign: TextAlign.center,
+            style: headingStyle,
+          ),
+          for (final item in listItems) Text(item),
+        ],
+      ),
+    );
+  }
+}
