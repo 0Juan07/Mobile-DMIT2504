@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: colorScheme.primaryContainer, // try changing back to .primary — yuck!
         textTheme: TextTheme(
           headlineLarge: TextStyle(
+            fontFamily: "Playwrite BE WAL Guides",
             fontSize: 44,
             color: colorScheme.primary,
           ),
