@@ -35,47 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch, // like a flexbox!
-                            // .stretch alignment means children fill the entire width
-        children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: const Text(
-              'My Recipe App',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              )
-            ),
-          ),
-          Image.asset(
-            'assets/images/cool.jpg',
-            height: 480,
-          ),
-          const ListWithHeading(
-            heading: "Ingredients",
-            listItems: [
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-              "- some ingredient",
-            ]
-          ),
-          const ListWithHeading(
-            heading: "Instructions",
-            listItems: [
-              '1. take your cream and behold it',
-              '2. whip it good',
-              '3. dip a strawberry',
-            ]
-          ),
-        ],
-      ),
-    ),
+      home: const RecipePage(),
     );
   }
 }
