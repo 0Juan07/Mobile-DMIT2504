@@ -73,7 +73,7 @@ class RecipePage extends StatelessWidget {
             ),
             child: Image.asset(
               'assets/images/cool.jpg',
-              height: 480,
+              height: 200,
               fit: BoxFit.cover,
             ),
           ),
