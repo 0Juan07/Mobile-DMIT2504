@@ -14,6 +14,12 @@ Future<void> main() async {
     Uri.parse('https://dog.ceo/api/breeds/image/random')
   );
   print(response.body); // body is a JSON payload
+
+  final data = jsonDecode(response.body);
+  print(data);
+  print(data['message']);
+
+
   runApp(const MainApp());
 }
 
