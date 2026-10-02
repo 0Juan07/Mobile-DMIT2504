@@ -7,7 +7,13 @@ import 'package:http/http.dart';
 /// dog url. NOTE: will need to ensure a callback is used to be certain the
 /// widget has been mounted before calling setState().
 
-void main() {
+Future<void> main() async {
+  // hot reload  ('r' in flutter console) will *not* rerun main()
+  // hot restart ('R', i.e. shift+r ) will.
+  final response = await get(
+    Uri.parse('https://dog.ceo/api/breeds/image/random')
+  );
+  print(response.body); // body is a JSON payload
   runApp(const MainApp());
 }
 
