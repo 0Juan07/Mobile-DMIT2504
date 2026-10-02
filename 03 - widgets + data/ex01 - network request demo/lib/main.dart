@@ -16,10 +16,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hi there!'),
+          child: Image.network('https://images.dog.ceo/breeds/spaniel-blenheim/n02086646_589.jpg'),
         ),
       ),
     );
