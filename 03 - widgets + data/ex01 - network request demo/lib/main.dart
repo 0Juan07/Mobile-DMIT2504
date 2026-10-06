@@ -7,10 +7,8 @@ import 'package:http/http.dart';
 /// dog url. NOTE: will need to ensure a callback is used to be certain the
 /// widget has been mounted before calling setState().
 
-String dogImageUrl = '';
 
 Future<void> main() async {
-  dogImageUrl = await RandomDogImage.getRandomDogUrl();
   runApp(const MainApp());
 }
 
@@ -29,17 +27,35 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class RandomDogImage extends StatelessWidget {
+// skeleton of ingredients for a stateful widget/component
+// (yes, way more annoying to set up than in React)
+
+class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
 
-  static Future<String> getRandomDogUrl() async {
-    const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
-    var response = await get(Uri.parse(dogEndpoint));
-    return await jsonDecode(response.body)['message'];
-  }
+  @override
+  State<RandomDogImage> createState() => _RandomDogImageState();
+}
+
+
+class _RandomDogImageState extends State<RandomDogImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(dogImageUrl);
+    return const Placeholder();
   }
+
 }
+
+
+//   static Future<String> getRandomDogUrl() async {
+//     const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
+//     var response = await get(Uri.parse(dogEndpoint));
+//     return await jsonDecode(response.body)['message'];
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image.network();
+//   }
+// }
