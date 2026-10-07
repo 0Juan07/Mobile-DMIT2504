@@ -67,17 +67,34 @@ class _RandomDogImageState extends State<RandomDogImage> {
 
   @override
   Widget build(BuildContext context) {
-    // ternary gang: conditionally return loading text OR dog image
-    return dogImageUrl.isEmpty
-      ? const Text("Loading dog...")
-      : Image.network(dogImageUrl);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        
+        // 1. we'll use a SizedBox to control the position of image + button,
+        // so that button doesn't jump around the UI while image is loading
+        SizedBox(
+          height: 300,
+          // ternary gang: conditionally return loading text OR dog image
+          child: dogImageUrl.isEmpty 
+            ? const Center(child: Text("Loading dog..."))
+            : Image.network(dogImageUrl),
+        ),
+
+        // 2. another fixed-height box for some spacing
+        const SizedBox(height: 16),
+
+        // 3. teh button
+        ElevatedButton(
+          onPressed: fetchNewDog, // note: this isn't a call() !
+                                  // it's just naming what function SHOULD fire.
+          child: const Text("fetch new dog (I hated my old one)"),
+        
+        ),
+
+      ]
+    );
 
   }
 
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image.network();
-//   }
-// }
