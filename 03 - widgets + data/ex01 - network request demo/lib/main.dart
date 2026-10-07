@@ -46,9 +46,8 @@ class _RandomDogImageState extends State<RandomDogImage> {
     return await jsonDecode(response.body)['message'];
   }
 
-  @override
-  void initState() {
-    super.initState();    
+  // refactor dog image fetching into its own function, so i can reuse it
+  Future<void> fetchNewDog() async {
     getRandomDogUrl().then(
       // callback function: (returnThing) => { logic to fire }
       (url) { 
@@ -62,6 +61,12 @@ class _RandomDogImageState extends State<RandomDogImage> {
         );
       }
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();    
+    fetchNewDog();
   }
 
   @override
