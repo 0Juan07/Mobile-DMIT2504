@@ -52,6 +52,11 @@ class _RandomDogImageState extends State<RandomDogImage> {
     getRandomDogUrl().then(
       // callback function: (returnThing) => { logic to fire }
       (url) { 
+        // exit out if component isn't mounted.
+        // where is {mounted} coming from? mouse over / look at docs: https://api.flutter.dev/flutter/widgets/State-class.html
+        if (!mounted) return;
+
+        // all good? set initial state
         setState(
           () { dogImageUrl = url; }
         );
