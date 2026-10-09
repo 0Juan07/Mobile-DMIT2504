@@ -57,20 +57,18 @@ class _RandomDogImageState extends State<RandomDogImage> {
           // ternary gang: conditionally return loading text OR dog image
           child: GestureDetector(
             onTap: () { // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
-              
-              print("got a tap");
-
-
-              likes += 1;
-              print('likes: $likes');
-              
-              // with nothing *else* mutating state *correctly* in this block,
-              // I now get incrementing counts in my console, but no re-renders.
-              // recall: "state under the hood" pseudocode example -> values are updating, but render is now decoupled.
-
+              // print("got a tap");
+              setState( // ez
+                () { likes += 1; }
+              );
+              // print('likes: $likes');
+              fetchNewDog();
             },
             onLongPress: () { // () {} is equivalent to () => {} in JS
-              print('got a long press');
+              // print('got a long press');
+              setState(
+                () { dislikes +=1; }
+              );
               fetchNewDog();
             },
             child: dogImageUrl.isEmpty ? const Text("Loading dog...") : Image.network(dogImageUrl),
