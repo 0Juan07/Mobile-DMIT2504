@@ -23,7 +23,7 @@ class DisplayLikes extends StatelessWidget {
         children: <Widget>[
 
           Text(
-            forDislikes ? "Dislikes" : "Likes", // dynamic text based off boolean
+            forDislikes ? "Dislikes: " : "Likes: ", // dynamic text based off boolean
             style: const TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,

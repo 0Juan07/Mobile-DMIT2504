@@ -3,6 +3,8 @@ import 'package:http/http.dart';
 
 import 'package:flutter/material.dart';
 
+import 'display_likes.dart';
+
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
@@ -15,6 +17,8 @@ class RandomDogImage extends StatefulWidget {
 class _RandomDogImageState extends State<RandomDogImage> {
 
   String dogImageUrl = '';
+  int    likes       = 0;
+  int    dislikes    = 0;
 
   static Future<String> getRandomDogUrl() async {
     const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
@@ -43,7 +47,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         
         // 1. we'll use a SizedBox to control the position of image + button,
         // so that button doesn't jump around the UI while image is loading
@@ -61,7 +65,10 @@ class _RandomDogImageState extends State<RandomDogImage> {
         // 2. another fixed-height box for some spacing
         const SizedBox(height: 16),
 
-        const Text("press image for new dog")
+        const Text("press image for new dog"),
+
+        DisplayLikes(numLikes: likes),
+        DisplayLikes(forDislikes: true, numLikes: dislikes),
 
       ]
     );
