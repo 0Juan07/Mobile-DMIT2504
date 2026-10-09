@@ -16,8 +16,9 @@ class RandomDogImage extends StatefulWidget {
 
 class _RandomDogImageState extends State<RandomDogImage> {
 
+  // all three of these are stateful
   String dogImageUrl = '';
-  int    likes       = 0;
+  int    likes       = 0; 
   int    dislikes    = 0;
 
   static Future<String> getRandomDogUrl() async {
@@ -54,13 +55,21 @@ class _RandomDogImageState extends State<RandomDogImage> {
         SizedBox(
           height: 300,
           // ternary gang: conditionally return loading text OR dog image
-          child: dogImageUrl.isEmpty 
-            ? const Center(child: Text("Loading dog..."))
-            : GestureDetector(
-              onTap: fetchNewDog,
-              child: Image.network(dogImageUrl)
-            ),
+          child: GestureDetector(
+            onTap: () { // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
+              print("got a tap");
+              fetchNewDog();
+
+            },
+            onLongPress: () { // () {} is equivalent to () => {} in JS
+              print('got a long press');
+              fetchNewDog();
+            },
+            child: dogImageUrl.isEmpty ? const Text("Loading dog...") : Image.network(dogImageUrl),
+          ),
         ),
+          
+
 
         // 2. another fixed-height box for some spacing
         const SizedBox(height: 16),
