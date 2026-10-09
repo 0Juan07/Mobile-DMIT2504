@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 // relative import, since both main.dart and widgets/* are in lib/
 import 'widgets/random_dog.dart';
+import 'widgets/page_title.dart';
+
 
 // I would argue relative imports for files internal to this project would be better,
 // because they implicitly communicate that the imports are local / not from a 3rd party pkg.
@@ -22,11 +24,20 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: RandomDogImage(),
+        body: Padding(
+          padding: EdgeInsets.only(top: 24.0),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                PageTitle('DO U LIEK TEHSE DOGS?!?!!11'),
+                RandomDogImage(),
+              ]
+            ),
+          ),
         ),
       ),
     );
+
   }
 }
 
