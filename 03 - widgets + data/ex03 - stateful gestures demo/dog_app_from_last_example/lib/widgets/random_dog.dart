@@ -58,8 +58,17 @@ class _RandomDogImageState extends State<RandomDogImage> {
           child: GestureDetector(
             onTap: () { // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
               print("got a tap");
+
+              // bug city: even though we're not using setState here,
+              // the likes count in the console AND on the screen still update
+              likes += 1;
+              print('likes: $likes');
+
+              // that's because fetchNewDog() overwrites state, which triggers a re-render
               fetchNewDog();
 
+              // lesson: always use setState() to change state variables, *especially* in scenarios where
+              //         you're changing multiple stateful attributes in the same block of logic
             },
             onLongPress: () { // () {} is equivalent to () => {} in JS
               print('got a long press');
