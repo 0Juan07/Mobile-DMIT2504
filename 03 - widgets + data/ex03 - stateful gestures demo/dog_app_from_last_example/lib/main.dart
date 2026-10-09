@@ -1,7 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+
+// import via package name (uses whatever this project is called in pubspec.yaml)
+// import 'package:week_04_gestures/widgets/random_dog.dart';
+
+// relative import, since both main.dart and widgets/* are in lib/
+import 'widgets/random_dog.dart';
+
+// I would argue relative imports for files internal to this project would be better,
+// because they implicitly communicate that the imports are local / not from a 3rd party pkg.
+// I would personally stick to using package: for third-party packages so someone reading my code
+// could intuit the difference.
 
 Future<void> main() async {
   runApp(const MainApp());
@@ -23,68 +31,7 @@ class MainApp extends StatelessWidget {
 }
 
 
-class RandomDogImage extends StatefulWidget {
-  const RandomDogImage({super.key});
-
-  @override
-  State<RandomDogImage> createState() => _RandomDogImageState();
-}
 
 
-class _RandomDogImageState extends State<RandomDogImage> {
 
-  String dogImageUrl = '';
 
-  static Future<String> getRandomDogUrl() async {
-    const dogEndpoint = 'https://dog.ceo/api/breeds/image/random';
-    var response = await get(Uri.parse(dogEndpoint));
-    return await jsonDecode(response.body)['message'];
-  }
-
-  Future<void> fetchNewDog() async {
-
-    setState(() { dogImageUrl = ''; });  // reset the dog URL state first
-    final url = await getRandomDogUrl(); // get new dog image URL
-
-    if (!mounted) return;                // bail out if component isn't mounted into element tree
-
-    setState(() { dogImageUrl = url; }); // overwrite dog image state
-
-  }
-
-  @override
-  void initState() {
-    super.initState();    
-    fetchNewDog();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        
-        // 1. we'll use a SizedBox to control the position of image + button,
-        // so that button doesn't jump around the UI while image is loading
-        SizedBox(
-          height: 300,
-          // ternary gang: conditionally return loading text OR dog image
-          child: dogImageUrl.isEmpty 
-            ? const Center(child: Text("Loading dog..."))
-            : GestureDetector(
-              onTap: fetchNewDog,
-              child: Image.network(dogImageUrl)
-            ),
-        ),
-
-        // 2. another fixed-height box for some spacing
-        const SizedBox(height: 16),
-
-        const Text("press image for new dog")
-
-      ]
-    );
-
-  }
-
-}
