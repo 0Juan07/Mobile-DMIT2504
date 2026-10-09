@@ -58,19 +58,16 @@ class _RandomDogImageState extends State<RandomDogImage> {
           child: GestureDetector(
             onTap: () { // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
               
-              
               print("got a tap");
-              
-              // bug city: what about when I fetch a new dog (and trigger re-render through state)
-              // *before* the likes count change?
-              fetchNewDog();
+
 
               likes += 1;
               print('likes: $likes');
-              // it still updates
+              
+              // with nothing *else* mutating state *correctly* in this block,
+              // I now get incrementing counts in my console, but no re-renders.
+              // recall: "state under the hood" pseudocode example -> values are updating, but render is now decoupled.
 
-              // lesson: all state evaluation in one block happens at once.
-              //         great from a performance perspective, but easy for you to miss proper state mutation.
             },
             onLongPress: () { // () {} is equivalent to () => {} in JS
               print('got a long press');
