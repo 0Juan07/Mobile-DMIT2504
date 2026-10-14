@@ -23,10 +23,18 @@ class MainApp extends StatelessWidget {
   }
 }
 
-
-class UserSignupForm extends StatelessWidget {
-
+class UserSignupForm extends StatefulWidget {
+  
   const UserSignupForm({super.key});
+
+  @override
+  State<UserSignupForm> createState() => _UserSignupFormState();
+
+}
+
+
+class _UserSignupFormState extends State<UserSignupForm> {
+
 
   FormFieldValidator<String> requiredField(String fieldName) {
     // ternary gang: condition ? ifTrue : ifFalse
@@ -53,7 +61,6 @@ class UserSignupForm extends StatelessWidget {
                    b) all FormFields plug into the Form wrapping them, so some button press / action
                       can validate every single one of its fields at once
           */
-
           TextFormField(
             validator: requiredField('Username'),
             decoration: InputDecoration(label: Text('Username'))
