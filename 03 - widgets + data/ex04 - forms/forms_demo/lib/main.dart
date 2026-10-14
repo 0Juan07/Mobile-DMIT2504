@@ -28,6 +28,14 @@ class UserSignupForm extends StatelessWidget {
 
   const UserSignupForm({super.key});
 
+  FormFieldValidator<String> requiredField(String fieldName) {
+    // ternary gang: condition ? ifTrue : ifFalse
+    return (value) => 
+      value == null || value.trim().isEmpty // is it null OR is it blank when trimmed
+      ? '$fieldName cannot be empty'  // value is bad:   return error message w/ dynamic fieldname
+      : null;                         // value is gucci: return null
+  }
+
   @override
   Widget build(BuildContext context) {
     // 1. wrap everything in a form. once I convert TextFields to TextFormFields, I can validate everything at once.
@@ -47,17 +55,12 @@ class UserSignupForm extends StatelessWidget {
           */
 
           TextFormField(
-            // ternary gang: condition ? ifTrue : ifFalse
-            validator: (value) => value == null || value.trim().isEmpty // is it null OR is it blank when trimmed
-              ? 'Username cannot be empty'  // value is bad:   return error message
-              : null,                       // value is gucci: return null
+            validator: requiredField('Username'),
             decoration: InputDecoration(label: Text('Username'))
           ),
           
           TextFormField(
-            validator: (value) => value == null || value.trim().isEmpty
-              ? 'Password cannot be empty'
-              : null,
+            validator: requiredField('Password'),
             obscureText: true, 
             enableSuggestions: false,
             autocorrect: false,
