@@ -39,43 +39,47 @@ class _RandomDogImageState extends State<RandomDogImage> {
   }
 
   Widget _buildDogImage() {
-    return GestureDetector(
-      onTap: () {
-        // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
-        // print("got a tap");
-        getRandomDogUrl().then(// anyFunc().then( result ) { logic } ); =>
-            (url) {
-          setState(() {
-            // still ez
-            dogImageUrl = url;
-            likes += 1;
+    return SizedBox(
+      height: 300,
+      // ternary gang: conditionally return loading text OR dog image
+      child: GestureDetector(
+        onTap: () {
+          // this is a callback function: what *should* fire *for* a tap; it's NOT a functionCall()
+          // print("got a tap");
+          getRandomDogUrl().then(// anyFunc().then( result ) { logic } ); =>
+              (url) {
+            setState(() {
+              // still ez
+              dogImageUrl = url;
+              likes += 1;
+            });
           });
-        });
-        // setState(// ez
-        //     () {
-        //   likes += 1;
-        // });
-        // print('likes: $likes');
-        // fetchNewDog();
-      },
-      onLongPress: () {
-        // () {} is equivalent to () => {} in JS
-        // print('got a long press');
-        getRandomDogUrl().then((url) {
-          setState(() {
-            dogImageUrl = url;
-            dislikes += 1;
+          // setState(// ez
+          //     () {
+          //   likes += 1;
+          // });
+          // print('likes: $likes');
+          // fetchNewDog();
+        },
+        onLongPress: () {
+          // () {} is equivalent to () => {} in JS
+          // print('got a long press');
+          getRandomDogUrl().then((url) {
+            setState(() {
+              dogImageUrl = url;
+              dislikes += 1;
+            });
           });
-        });
 
-        // setState(() {
-        //   dislikes += 1;
-        // });
-        // fetchNewDog();
-      },
-      child: dogImageUrl.isEmpty
-          ? const Text("Loading dog...")
-          : Image.network(dogImageUrl),
+          // setState(() {
+          //   dislikes += 1;
+          // });
+          // fetchNewDog();
+        },
+        child: dogImageUrl.isEmpty
+            ? const Text("Loading dog...")
+            : Image.network(dogImageUrl),
+      ),
     );
   }
 
@@ -90,11 +94,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       // 1. we'll use a SizedBox to control the position of image + button,
       // so that button doesn't jump around the UI while image is loading
-      SizedBox(
-        height: 300,
-        // ternary gang: conditionally return loading text OR dog image
-        child: _buildDogImage(),
-      ),
+      _buildDogImage(),
 
       // 2. another fixed-height box for some spacing
       const SizedBox(height: 16),
