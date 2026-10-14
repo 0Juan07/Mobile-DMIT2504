@@ -67,11 +67,7 @@ class UserSignupForm extends StatelessWidget {
             decoration: InputDecoration(label: Text('Password')),
           ),
   
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.white,
-            ),
+          ElevatedButton(
             onPressed: () => false,
             child: const Text('Sign Up'),
           ),
