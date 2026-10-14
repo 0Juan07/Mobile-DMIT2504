@@ -90,7 +90,11 @@ class _UserSignupFormState extends State<UserSignupForm> {
               if (_formKey.currentState!.validate()) {  // something! -> forced type assertion, aka playing with fire
               // sometimes, you run into a situation where you *know* that something *cannot possibly* be null, but the compiler doesn't
               // a.k.a. the "trust me bro" operator. see what happens when you take the ! out.
-                print("so valid");
+
+              // normally, we pass form data as e.g. a POST request to a server or something like that; this is just a responsive placeholder
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Sending your login information to the FBI!"))
+                );
               } 
               // usually, you don't have fallback behaviour (i.e. an else clause) because the field errors get displayed if invalid.
               // you could write in additional behaviour on an }else{} if you wanted.
