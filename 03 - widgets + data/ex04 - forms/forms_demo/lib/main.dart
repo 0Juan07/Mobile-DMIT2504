@@ -57,6 +57,24 @@ class _UserSignupFormState extends State<UserSignupForm> {
       : null;                         // value is gucci: return null
   }
 
+
+  /*
+    We have to manually call .dispose() on controllers because they hold on to various in-memory resources (e.g. listeners, mobile-native text editing state, etc.)
+    that don't get automatically cleaned up if/when the widget is removed from the element tree. 
+    Forgetting to do this is the el classico noob trap memory leak in a long-running app.
+  */
+
+  @override
+  void dispose() {
+    // State<T>.dispose() is the 'teardown/cleanup' method called whenever a stateful widget is removed from the element tree
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose(); // kind of backwards - I clean my stuff up FIRST, THEN clean up any potential superclass stuff
+    // Usually you're used to seeing super.someMethod() *first* when we override a method(), because you're used to seeing *setup* behaviour.
+    // For teardown behaviour, I do the parent .dispose() *last* because (instinctually) I don't want to risk tearing down base resources/hooks that my custom state rests on.
+    // State<T>.dispose() has a @mustCallSuper decorator on it, so if you forget to write this, compiler will 'remind' you.
+  }
+
   @override
   Widget build(BuildContext context) {
     // 1. wrap everything in a form. once I convert TextFields to TextFormFields, I can validate everything at once.
