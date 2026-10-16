@@ -44,6 +44,9 @@ class _UserSignupFormState extends State<UserSignupForm> {
              *not* the state of the widget that contains it. Think about it as one stateful widget nested in another.
   */
   final _formKey = GlobalKey<FormState>(); // remember to ()  -> we want an instance of this, not the type itself
+  // validation tells us if the input is *valid according to a condition*, not what the value *is* moment-to-moment. for that, we need text controllers
+  final _usernameController = TextEditingController(); // tl;dr - if i want to read the values, i need to wire text controllers to form fields
+  final _passwordController = TextEditingController(); // both of these are stateful, even if they're basically just glorified pointers
 
 
   FormFieldValidator<String?> requiredField(String fieldName) {
@@ -73,11 +76,13 @@ class _UserSignupFormState extends State<UserSignupForm> {
                       can validate every single one of its fields at once
           */
           TextFormField(
+            controller: _usernameController,
             validator: requiredField('Username'),
             decoration: InputDecoration(label: Text('Username'))
           ),
           
           TextFormField(
+            controller: _passwordController,
             validator: requiredField('Password'),
             obscureText: true, 
             enableSuggestions: false,
@@ -93,7 +98,11 @@ class _UserSignupFormState extends State<UserSignupForm> {
 
               // normally, we pass form data as e.g. a POST request to a server or something like that; this is just a responsive placeholder
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Sending your login information to the FBI!"))
+                  SnackBar(content: Text(
+                    "Sent to the FBI:\nUsername: ${_usernameController.text}\nPassword: ${_passwordController.text}"
+                  ))
+                  // I'm reading from state here just to show replacement feedback for what would otherwise be taking this form data
+                  // and POSTing it to a server (which would also require being able to read the values directly.)
                 );
               } 
               // usually, you don't have fallback behaviour (i.e. an else clause) because the field errors get displayed if invalid.
