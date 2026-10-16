@@ -46,7 +46,7 @@ class _UserSignupFormState extends State<UserSignupForm> {
   final _formKey = GlobalKey<FormState>(); // remember to ()  -> we want an instance of this, not the type itself
 
 
-  FormFieldValidator<String> requiredField(String fieldName) {
+  FormFieldValidator<String?> requiredField(String fieldName) {
     // ternary gang: condition ? ifTrue : ifFalse
     return (value) => 
       value == null || value.trim().isEmpty // is it null OR is it blank when trimmed
@@ -108,5 +108,3 @@ class _UserSignupFormState extends State<UserSignupForm> {
   }
 
 }
-
-
