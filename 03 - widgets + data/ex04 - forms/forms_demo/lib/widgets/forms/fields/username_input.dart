@@ -20,10 +20,18 @@ class UsernameInput extends StatefulWidget {
   State<UsernameInput> createState() => _UsernameInputState();
 }
 
+
 class _UsernameInputState extends State<UsernameInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return TextFormField(
+      controller: widget.controller,
+      validator: (value) => value == null || value.trim() == ''
+        ? 'Username cannot be empty'
+        : null,
+      decoration: InputDecoration(label: Text('Username'))
+      // ideally we'd still have helper functions e.g. "requiredField"
+    );
   }
 }
