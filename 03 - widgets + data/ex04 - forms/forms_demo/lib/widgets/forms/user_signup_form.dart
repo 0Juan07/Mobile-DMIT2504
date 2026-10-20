@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'fields/username_input.dart';
+import 'fields/username_formfield.dart';
 
 
 class UserSignupForm extends StatefulWidget {
@@ -74,7 +74,7 @@ class _UserSignupFormState extends State<UserSignupForm> {
                       can validate every single one of its fields at once
           */
                     
-          UsernameInput(controller: _usernameController),
+          UsernameFormField(controller: _usernameController),
 
           TextFormField(
             controller: _passwordController,

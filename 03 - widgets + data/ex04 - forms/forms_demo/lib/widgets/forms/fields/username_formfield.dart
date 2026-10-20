@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class UsernameInput extends StatefulWidget {
+class UsernameFormField extends StatefulWidget {
 
   // we need to pass two things to a custom field:
   //  - a controller (so that the outer form using it can read its values)
@@ -9,7 +9,7 @@ class UsernameInput extends StatefulWidget {
   final TextEditingController controller;
   final String label;
 
-  const UsernameInput({
+  const UsernameFormField({
     super.key,
     required this.controller,
     this.label = 'Username',
@@ -17,11 +17,11 @@ class UsernameInput extends StatefulWidget {
 
 
   @override
-  State<UsernameInput> createState() => _UsernameInputState();
+  State<UsernameFormField> createState() => _UsernameFormFieldState();
 }
 
 
-class _UsernameInputState extends State<UsernameInput> {
+class _UsernameFormFieldState extends State<UsernameFormField> {
 
   @override
   Widget build(BuildContext context) {
