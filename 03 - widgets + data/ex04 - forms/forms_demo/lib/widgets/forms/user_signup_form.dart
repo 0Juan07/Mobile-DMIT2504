@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:forms_demo/widgets/forms/fields/password_field.dart';
 
 import 'fields/username_formfield.dart';
+import 'fields/password_formfield.dart';
 
 class UserSignupForm extends StatefulWidget {
   const UserSignupForm({super.key});
@@ -73,21 +73,8 @@ class _UserSignupFormState extends State<UserSignupForm> {
                    b) all FormFields plug into the Form wrapping them, so some button press / action
                       can validate every single one of its fields at once
           */
-          // TextFormField(
-          //   controller: _usernameController,
-          //   validator: requiredField('Username'),
-          //   decoration: InputDecoration(label: Text('Username'))
-          // ),
           UsernameFormField(controller: _usernameController),
-          PasswordInput(controller: _passwordController),
-          // TextFormField(
-          //   controller: _passwordController,
-          //   validator: requiredField('Password'),
-          //   obscureText: true,
-          //   enableSuggestions: false,
-          //   autocorrect: false,
-          //   decoration: InputDecoration(label: Text('Password')),
-          // ),
+          PasswordFormField(controller: _passwordController),
 
           ElevatedButton(
             onPressed: () {
