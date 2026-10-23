@@ -22,22 +22,25 @@ class _PageOneState extends State<PageOne> {
       body: Column(
         children: <Widget>[
 
-          const Text("Page One"),
+          const Text("You have shown up to class with underwear on your head.\nPlease explain yourself."),
+
+          const SizedBox(height: 48),
 
           ElevatedButton(
             onPressed: () async {
               // General idea: I can return data from where I'm routing to, capture it here, have it ready when user comes back.
               // An enormous amount of engineering/building for mobile involves making data/UI ready ahead of time in order to make the experience
               // feel as instant/snappy as possible.
-              String returnData = await Navigator.of(context)
-                .pushNamed('/page-two') as String; // the data I'm expecting to be returned back is a string
+              final excuse = await Navigator.of(context).pushNamed('/page-two') as String?; // the data I'm expecting to be returned back is a string
 
-              setState(() { data = returnData; });
+              setState(() { 
+                data = excuse ?? "No excuse given; bold strategy."; 
+              });
             },
-            child: const Text('Please select your excuse for why you showed up to class with underwear on your head.'),
+            child: const Text('Select an excuse.'),
           ),
 
-          data != '' ? Text('Received data:\n$data') : const Text("Have not asked for data yet."),
+          Text(data.isEmpty ? "Awaiting excuse..." : data),
 
         ],
       ),
