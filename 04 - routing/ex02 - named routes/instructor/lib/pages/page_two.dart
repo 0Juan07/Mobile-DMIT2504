@@ -20,9 +20,11 @@ class PageTwo extends StatelessWidget {
         children: <Widget>[
 
           for (final excuse in excuses)
-            ListTile(
-              title: Text(excuse),
-              onTap: () => Navigator.of(context).pop(excuse),
+            Card(
+              child: ListTile(
+                title: Text(excuse),
+                onTap: () => Navigator.of(context).pop(excuse),
+              )
             )
 
         ],
