@@ -34,7 +34,7 @@ class _PageOneState extends State<PageOne> {
 
               setState(() { data = returnData; });
             },
-            child: const Text('Retrieve data from Page Two and go to it'),
+            child: const Text('Please select your excuse for why you showed up to class with underwear on your head.'),
           ),
 
           data != '' ? Text('Received data:\n$data') : const Text("Have not asked for data yet."),
