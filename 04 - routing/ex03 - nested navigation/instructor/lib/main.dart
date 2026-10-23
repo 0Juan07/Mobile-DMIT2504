@@ -15,15 +15,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        /* OK, but didn't you basically just replace '/' with a middleman variable?
+      // Let's say I want additional things to happen/contextualise
+      // my routing, e.g. app-level settings being (re)applied, etc.
+      // I can use onGenerateRoute instead of a static routes table
+      // and write all that logic in as necessary.
 
-           Yes, here's what we get out of this:
-             - cleaner separation/naming (e.g. URL route might not be a good description of waht's going on)
-             - a typo becomes a compiler error *not* a runtime/pathing error
-             - dynamic construction of routes gets a lot easier
-        */
-        homeRoute: (context) => const HomePage(),
+      // TLDR: If we go from a simple lookup table to a function, 
+      //       we have more control over firing additional behaviour for all / specific routes.
+      onGenerateRoute: (settings) {
+
+        Widget page;
+
+        // part A: map intended route to a widget, but also let us fire other logic as well
+        // switch case(A, B, C, D, E, ..., default)   is like if-elif-elif-elif-elif-elif-...-else
+        switch (settings.name) {
+          case homeRoute:
+            page = const HomePage();
+            break;
+          default:
+            throw Exception('Unknown route: ${settings.name}');
+        }
+
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => page,
+          settings: settings,
+        );
+
       }
     );
   }
