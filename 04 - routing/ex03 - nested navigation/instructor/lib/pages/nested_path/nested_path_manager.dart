@@ -22,6 +22,7 @@ class NestedPathManager extends StatefulWidget{
 
 class _NestedPathManagerState extends State<NestedPathManager> {
 
+  // this is the sole reason this route manager has to be stateful: its key has to survive across rebuilds.
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -38,7 +39,31 @@ class _NestedPathManagerState extends State<NestedPathManager> {
   }
 
   Route<dynamic> _onGenerateRoute(RouteSettings settings) {
-    return null; // broken, just to have skeleton
+
+    Widget page;
+
+    switch (settings.name) {
+      case nestedPathHome:
+        page = const NestedPathPage();
+        break;
+      case nestedPageOne:
+        page = const NestedPageOne();
+        break;
+      case nestedPageTwo:
+        page = const NestedPageTwo();
+        break;
+      case nestedPageThree:
+        page = const NestedPageThree();
+        break;
+      default:
+        throw Exception('Unknown nested_path route: ${settings.name}');
+    }
+
+    return MaterialPageRoute<dynamic>(
+      builder: (context) => page,
+      settings: settings,
+    );
+
   }
 
 }
