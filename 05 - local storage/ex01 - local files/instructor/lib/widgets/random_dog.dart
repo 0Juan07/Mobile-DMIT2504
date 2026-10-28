@@ -20,6 +20,8 @@ import 'package:path_provider/path_provider.dart';  // will have to `flutter pub
     The reason the plugin gives us all these fairly specific abstractions is that all of them live/behave very differently
     depending on e.g. Windows, mobile, web, etc. so this just lets us write one high-level abstraction once, which will compile
     down to platform-specific implementation via this plugin/library.
+
+    NOTE: Not all of these are available on every platform (esp. browser); see the chart on the plugin website for specifics.
 */
 
 class RandomDogImage extends StatefulWidget {
@@ -54,27 +56,33 @@ class _RandomDogImageState extends State<RandomDogImage> {
     final file     = await _dogFile();  // creates that empty file {tempdir}/dog.jpg
     await file.writeAsBytes(response.bodyBytes);
     debugPrint('Saved dog pic to ${file.path}');
+  }
 
+  // common pattern in mobile apps: save app state locally on close, load local app state on reopen, overwrite with remote data as necessary
+  // therefore, let's start our app by loading from our local file if there is one, and if not, fetching a new dog
+  Future<void> _loadInitialDog() async {
+    final file = await _dogFile(); // this may be null if it doesn't exist
+    if (await file.exists()) {
+      setState(() {
+        dogImageUrl = file.path; // we'll need to change our rendering implementation to use Image.file instead of Image.network if our initial dog is local
+      });
+    } else {
+      final url = await getRandomDogUrl();
+      setState(() { dogImageUrl = url; });
+      _saveDogImage(url);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getRandomDogUrl().then((url) {
-      setState(() {
-        dogImageUrl = url;
-      });
-      // how do I know when I should be saving the dog pic?
-      // -> probably, whenever a new dog pic arrives, i.e. we set a new dog url to render the image from
-      // -> therefore, just ctrl+f setState and save the dog image anytime we overwrite the dog url
-      _saveDogImage(url);
-    });
+    _loadInitialDog();  // initial state is also now very clean!
   }
 
   Widget _buildDogImage() {
     Widget childWidget;
 
-    if (dogImageUrl != '') {
+    if (dogImageUrl.isNotEmpty) {
       // Image.network already downloads the image as bytes from URL to show the pic
       // Whyyyyy do we then need to re-download the image?
       // unfortunately, Image.network doesn't return, store, or otherwise give us access to the bytes
@@ -82,7 +90,13 @@ class _RandomDogImageState extends State<RandomDogImage> {
 
       // How could we solve this? Probably a workflow where you a) request the image,
       // b) save it as bytes in a tempfile, c) and also render from that tempfile
-      childWidget = Image.network(dogImageUrl);
+      
+      // now, I need to render either from network path or from a file.
+      // just for simplicity's sake, I'm going to check if my path starts with 'http' to determine that
+      dogImageUrl.startsWith('http')
+        ? childWidget = Image.network(dogImageUrl)
+        : childWidget = Image.file(File(dogImageUrl));
+        // when doing Image.file, you have to pass the actual file as bytes, not just the path to it
     } else {
       childWidget = const CircularProgressIndicator();
     }
