@@ -17,36 +17,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 */
 
 
-void main() {
-  runApp(const MainApp());
+Future<void> main() async {
+  // in order to prevent a 'flash' where we might see a very brief light-mode frame since 
+  // build() renders an initial frame with _darkMode = false; before running _initState(),
+  // we can pull the preference and set it before we even fire runApp()
+
+  // this is just extra material, and it's very unlikely the user would see that frame before the 'right' one is redrawn;
+  // and I'm just demoing to give you a sense of edge cases and how to deal with them.
+ 
+  // kind of like the DOMContentLoaded listener in JS, we first want to make sure Flutter is properly initialised first
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // now, we can get that pref and pass it to the main app
+  final prefs = await SharedPreferences.getInstance();
+  runApp(MainApp(darkMode: prefs.getBool('darkMode') ?? false));
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+
+  final bool darkMode;
+  
+  const MainApp({super.key, required this.darkMode});
 
   @override
   State<MainApp> createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
-  bool _darkMode = false;
-
-  Future<bool> _readDarkModeFromSharedPrefs() async {
-    // if we had a bunch of initial settings, this method could just be to load all initial preferences
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('darkMode') ?? _darkMode;  // set a fallback state in case value is null
-  }
-
-  @override initState() {
-    super.initState();
-    // read the saved value once, then rebuild/re-render with it
-    // that method is async & initState can't be, so I use {method}.then() instead of final darkMode = await {method}
-    _readDarkModeFromSharedPrefs().then(
-      (isDarkMode) {
-        setState(() { _darkMode = isDarkMode; });
-      } 
-    );
-  }
+  late bool _darkMode = widget.darkMode;
 
   @override
   Widget build(BuildContext context) {
