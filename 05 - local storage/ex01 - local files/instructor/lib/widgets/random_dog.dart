@@ -40,6 +40,23 @@ class _RandomDogImageState extends State<RandomDogImage> {
     return await jsonDecode(response.body)['message'];
   }
 
+  // we'll write two methods, one to return a file based on a path and another to save dog as local img
+  // they'll both be async because they rely on async-fetching the dog image in the first place
+  Future<File> _dogFile() async {
+    // when called will create an empty dog.jpg in the platform's tempdir path
+    final tempDir = await getTemporaryDirectory();
+    return File('${tempDir.path}/dog.jpg');
+    // assumes we're saving some dog image as 'dog.jpg'
+  }
+
+  Future<void> _saveDogImage(String url) async {
+    final response = await get(Uri.parse(url));
+    final file     = await _dogFile();  // creates that empty file {tempdir}/dog.jpg
+    await file.writeAsBytes(response.bodyBytes);
+    debugPrint('Saved dog pic to ${file.path}');
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +64,10 @@ class _RandomDogImageState extends State<RandomDogImage> {
       setState(() {
         dogImageUrl = url;
       });
+      // how do I know when I should be saving the dog pic?
+      // -> probably, whenever a new dog pic arrives, i.e. we set a new dog url to render the image from
+      // -> therefore, just ctrl+f setState and save the dog image anytime we overwrite the dog url
+      _saveDogImage(url);
     });
   }
 
@@ -54,6 +75,13 @@ class _RandomDogImageState extends State<RandomDogImage> {
     Widget childWidget;
 
     if (dogImageUrl != '') {
+      // Image.network already downloads the image as bytes from URL to show the pic
+      // Whyyyyy do we then need to re-download the image?
+      // unfortunately, Image.network doesn't return, store, or otherwise give us access to the bytes
+      // Therefore, (for now) we ask for the image a second time.
+
+      // How could we solve this? Probably a workflow where you a) request the image,
+      // b) save it as bytes in a tempfile, c) and also render from that tempfile
       childWidget = Image.network(dogImageUrl);
     } else {
       childWidget = const CircularProgressIndicator();
@@ -79,6 +107,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
       dogImageUrl = url;
       liked ? likes += 1 : dislikes += 1;
     });
+    _saveDogImage(url);
   }
 
   @override
