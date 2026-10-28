@@ -1,7 +1,26 @@
+import 'dart:io';  // for i/o with terminal and/or files
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';  // will have to `flutter pub add path_provider` in terminal in project root
+
+/* 
+    Step 1: implementing local file storage (goal: save dog pic to a file)
+
+    We'll be using the `path_provider` plugin (https://pub.dev/packages/path_provider),
+    which makes it easier for us to interact with filesystems (and not have to write manual code for each platform).
+
+    Some abstractions it provides:
+     - getTemporaryDirectory()             -> lets us create a temp dir for writing temporary files
+     - getApplicationDocumentsDirectory()  -> access to a persistent local folder for storage, belonging to this app
+     - getApplicationSupportDirectory()    -> internal app files, kept but not meant for user (kind of like AppData folders in Windows)
+     - getDownloadsDirectory()             -> guess lol
+
+    The reason the plugin gives us all these fairly specific abstractions is that all of them live/behave very differently
+    depending on e.g. Windows, mobile, web, etc. so this just lets us write one high-level abstraction once, which will compile
+    down to platform-specific implementation via this plugin/library.
+*/
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
