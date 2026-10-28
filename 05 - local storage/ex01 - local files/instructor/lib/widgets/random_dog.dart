@@ -58,11 +58,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
   void _setDogImageUrl(String url, bool liked) {
     setState(() {
       dogImageUrl = url;
-      if (liked) {
-        likes += 1;
-      } else {
-        dislikes += 1;
-      }
+      liked ? likes += 1 : dislikes += 1;
     });
   }
 
