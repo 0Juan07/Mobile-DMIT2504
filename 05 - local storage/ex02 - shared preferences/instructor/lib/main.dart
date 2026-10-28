@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+// run `flutter pub add shared_preferences` to actually install the package into our project first
+
 void main() {
   runApp(const MainApp());
 }
