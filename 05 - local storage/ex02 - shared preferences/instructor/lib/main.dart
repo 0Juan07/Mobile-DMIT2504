@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
      b) remove(key) to reset a key's value to null
      c) clear()     to reset all cached data
   - initial values for all keys (if never specified/written to) is null
+
+  NOTE: local storage & shared prefs won't work on browser emulation
 */
 
 
@@ -28,6 +30,23 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   bool _darkMode = false;
+
+  Future<bool> _readDarkModeFromSharedPrefs() async {
+    // if we had a bunch of initial settings, this method could just be to load all initial preferences
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('darkMode') ?? _darkMode;  // set a fallback state in case value is null
+  }
+
+  @override initState() {
+    super.initState();
+    // read the saved value once, then rebuild/re-render with it
+    // that method is async & initState can't be, so I use {method}.then() instead of final darkMode = await {method}
+    _readDarkModeFromSharedPrefs().then(
+      (isDarkMode) {
+        setState(() { _darkMode = isDarkMode; });
+      } 
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
