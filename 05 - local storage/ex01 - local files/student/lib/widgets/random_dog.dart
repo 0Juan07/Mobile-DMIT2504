@@ -1,7 +1,27 @@
+import 'dart:io'; // for i/o with terminal and/or files
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+
+import 'package:path_provider/path_provider.dart'; // will have to 'flutter pub add path_provider'
+
+/*
+
+  Local file
+  
+  path_provider  plugin
+  easier for us to interact with filesystems
+
+  Some abstractions
+  - getTemporaryDirectory()               -- temp dir for temporary files
+  - getApplicationDocumentsDirectory()    -- Internal app 
+  - getApplicationSupportDirectory()      -- Not meant for user (kind of like AppData folders)
+  - getDownloadsDirectory()               -- Guess lol
+
+
+
+*/
 
 class RandomDogImage extends StatefulWidget {
   const RandomDogImage({super.key});
@@ -21,21 +41,47 @@ class _RandomDogImageState extends State<RandomDogImage> {
     return await jsonDecode(response.body)['message'];
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getRandomDogUrl().then((url) {
+  Future<void> _loadInitialDog() async {
+    final file = await _dogFile();
+    if (await file.exists()) {
+      setState(() {
+        dogImageUrl = file.path;
+      });
+    } else {
+      final url = await getRandomDogUrl();
       setState(() {
         dogImageUrl = url;
       });
-    });
+    }
+  }
+
+  Future<File> _dogFile() async {
+    final tempDir = await getTemporaryDirectory();
+    return File(
+        '${tempDir.path}/dog.jpg'); // Assumes we are saving some dog image as 'dog.jpg'
+  }
+
+  Future<void> _saveDogImage(String url) async {
+    final response = await get(Uri.parse(url));
+    final file = await _dogFile(); // create empty
+    await file.writeAsBytes(response.bodyBytes);
+    debugPrint('Saved dog pic to ${file.path}');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInitialDog(); // initial state is cleaaan
   }
 
   Widget _buildDogImage() {
     Widget childWidget;
 
     if (dogImageUrl != '') {
-      childWidget = Image.network(dogImageUrl);
+      dogImageUrl.startsWith('http')
+          ? childWidget = Image.network(dogImageUrl)
+          : childWidget = Image.file(File(dogImageUrl));
+      // when doing  Image.file you have to pass the actual file
     } else {
       childWidget = const CircularProgressIndicator();
     }
@@ -63,6 +109,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
       } else {
         dislikes += 1;
       }
+      _saveDogImage(url);
     });
   }
 
