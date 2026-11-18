@@ -27,7 +27,7 @@ void main() async {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp({super.key, required this.darkMode});
+ MainApp({super.key, required this.darkMode});
 
   final bool darkMode;
 
