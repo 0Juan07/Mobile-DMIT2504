@@ -1,27 +1,29 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'todo_page.dart';
+
 import 'app_state.dart';
 import 'home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  ApplicationState authAppState = ApplicationState();
+  ApplicationState appState = ApplicationState();
 
-  runApp(MainApp(authAppState: authAppState));
+  runApp(MainApp(appState: appState));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({required this.authAppState, super.key});
+  const MainApp({required this.appState, super.key});
 
-  final ApplicationState authAppState;
+  final ApplicationState appState;
 
   @override
   Widget build(BuildContext context) {
     final routes = {
       '/': (context) {
-        return HomePage(authAppState: authAppState);
+        return HomePage(appState: appState);
       },
       '/sign-in': (context) {
         return SignInScreen(
@@ -57,8 +59,34 @@ class MainApp extends StatelessWidget {
           ],
         );
       },
+      // Add to the routes map:
+      '/todos': (context) {
+        return TodoPage(appState: appState);
+      },
     };
 
-    return MaterialApp(title: 'Firebase UI Auth Demo', routes: routes);
+    // Add onGenerateRoute to MaterialApp:
+    return MaterialApp(
+      title: 'Firebase UI Auth Demo',
+      routes: routes,
+      onGenerateRoute: (settings) {
+        if (settings.name == '/todos') {
+          if (appState.loggedIn) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return TodoPage(appState: appState);
+              },
+            );
+          } else {
+            return MaterialPageRoute(
+              builder: (context) {
+                return HomePage(appState: appState);
+              },
+            );
+          }
+        }
+        return null;
+      },
+    );
   }
 }
