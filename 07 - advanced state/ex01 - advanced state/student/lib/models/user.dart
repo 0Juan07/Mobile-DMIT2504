@@ -1,4 +1,6 @@
-class User {
+import 'package:flutter/material.dart';
+
+class User extends ChangeNotifier {
   User(String firstName, String lastName) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -12,9 +14,11 @@ class User {
 
   set firstName(newFirstName) {
     _firstName = newFirstName;
+    notifyListeners();
   }
 
   set lastName(newLastName) {
     _lastName = newLastName;
+    notifyListeners();
   }
 }
