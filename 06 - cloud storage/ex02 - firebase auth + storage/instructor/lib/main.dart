@@ -1,6 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'todo_page.dart';
 import 'app_state.dart';
 import 'home.dart';
 
@@ -10,23 +11,23 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // load my internal application state management
-  ApplicationState authAppState = ApplicationState();
+  ApplicationState appState = ApplicationState();
 
   // run the app
-  runApp(MainApp(authAppState: authAppState));
+  runApp(MainApp(appState: appState));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({required this.authAppState, super.key});
+  const MainApp({required this.appState, super.key});
 
-  final ApplicationState authAppState;
+  final ApplicationState appState;
 
   @override
   Widget build(BuildContext context) {
     // this is just routing between screens that you're already familiar with
     final routes = {
       '/': (context) {
-        return HomePage(authAppState: authAppState);
+        return HomePage(appState: appState);
       },
       '/sign-in': (context) {
         return SignInScreen( // built-in we can use from firebase_ui_auth package.
@@ -68,12 +69,31 @@ class MainApp extends StatelessWidget {
             })
           ],
         );
-      }
+      },
+      // '/todos': (context) {
+      //   return TodoPage(appState: appState);
+      // }
     };
 
     return MaterialApp(
       title: 'Firebase UI Auth Demo',
       routes: routes,
+      onGenerateRoute: (settings) {
+        // if the route is '/todos', AND user is logged in, return the todo page
+        // if the route is '/todos', and user is NOT logged in, return the homepage
+        if (settings.name == '/todos') {
+          if (appState.loggedIn) {
+            return MaterialPageRoute(builder: (context) {
+              return TodoPage(appState: appState);
+            });
+          } else {
+            return MaterialPageRoute(builder: (context) {
+              return HomePage(appState: appState);
+            });
+          }
+        }
+        return null;
+      },
     );
   }
 }
